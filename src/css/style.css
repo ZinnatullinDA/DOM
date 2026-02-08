@@ -1,0 +1,28 @@
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 24px;
+}
+
+#game {
+  display: grid;
+  grid-template-columns: repeat(4, 120px);
+  grid-template-rows: repeat(4, 120px);
+  gap: 10px;
+}
+
+.cell {
+  width: 120px;
+  height: 120px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #f6f6f6;
+}
+
+.goblin {
+  width: 80px;
+  height: 80px;
+  user-select: none;
+  pointer-events: none;
+}
