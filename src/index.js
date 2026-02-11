@@ -9,7 +9,7 @@ function buildField(container, size = 4) {
   for (let i = 0; i < total; i += 1) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
-    container.appendChild(cell);
+    container.append(cell);
     cells.push(cell);
   }
   return cells;
@@ -25,16 +25,39 @@ function createGoblin() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const gameEl = document.getElementById('game');
+  if (!gameEl) {
+    console.log('Элемент с id "game" не найден');
+    return
+  }
   const cells = buildField(gameEl, 4);
-
   const goblin = createGoblin();
 
   let currentIndex = getRandomInt(cells.length);
-  cells[currentIndex].appendChild(goblin);
+  cells[currentIndex].append(goblin);
 
-  setInterval(() => {
+  function stopGame() {
+    if (gameInterval) {
+      clearInterval(gameInterval);
+      gameInterval = null;
+      console.log('Игра остановлена');
+    }
+  }
+
+  gameEl.addEventListener('click', (event) => {
+    if (event.target.classList.contains('goblin') || event.target.closest('.goblin')) {
+      stopGame();
+      alert('Игра остановлена!');
+    }
+  });
+
+  let gameInterval = setInterval(() => {
+    if (!goblin || !document.body.contains(goblin)) {
+      stopGame()
+      console.log('Гоблин не найден, интервал остановлен');
+      return
+    }
     const nextIndex = getNextIndex(currentIndex, cells.length);
-    cells[nextIndex].appendChild(goblin);
+    cells[nextIndex].append(goblin);
     currentIndex = nextIndex;
   }, 1000);
 });
